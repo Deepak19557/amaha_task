@@ -1,0 +1,32 @@
+<h1>Title: <%= @task.title %></h1>
+<h1>Description: <%= @task.desc %></h1>
+<h1>Deadline: <%= @task.deadline %></h1>
+
+<%= form_with(model: @task, url: update_state_task_path(@task), html: {id: "state_form"}) do |f| %>
+  <h1>
+    <%= f.select :status, options_for_select(Task.statuses.map { |k, v| [k.titleize, k] }, @task.status) %>
+  </h1>
+<% end %>
+
+<h2>
+  <%= link_to 'edit', edit_task_path(@task) %>
+</h2>
+
+<h2>
+  <%= link_to 'Back to Tasks list', tasks_path %>
+</h2>
+
+
+<script type="text/javascript">
+	$("#state_form").on('change', function(e){
+	  e.preventDefault();
+		resp = confirm("Are you sure??")
+		if(!resp){
+	    $("#task_status").val("<%= @task.status %>")
+			return false;
+	  }else{
+		  $('form').submit();
+	  }
+	})
+</script>
+

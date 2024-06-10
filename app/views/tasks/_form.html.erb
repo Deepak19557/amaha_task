@@ -1,0 +1,37 @@
+<!-- app/views/tasks/_form.html.erb -->
+
+<% if @task.errors.any? %>
+  <div class="error-messages">
+    <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: @task, local: true, html: { class: 'task-form' }) do |f| %>
+  <div class="form-group">
+    <%= f.label :title, class: 'form-label' %>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :desc, 'Description', class: 'form-label' %>
+    <%= f.text_field :desc, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :deadline, class: 'form-label' %>
+    <%= f.datetime_select :deadline, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status, class: 'form-label' %>
+    <%= f.select :status, options_for_select(Task.statuses.keys.map { |status| [status.titleize, status] }, @task.status), {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>
